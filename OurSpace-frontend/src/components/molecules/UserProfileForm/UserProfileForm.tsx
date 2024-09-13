@@ -6,8 +6,13 @@ import {object} from "yup";
 import {Box} from "@mui/system";
 import {Button, TextField} from "@mui/material";
 import isImageURL from 'image-url-validator';
-import ActiveUserContext from "../../../Contexts/ActiveUserContext";
+import {User} from "../../../types/models/User.model";
+import UserProfileService from "../../../Services/UserProfileService";
 
+interface UserProfileProps {
+    activeUser: User | undefined | null;
+    isDisabled: boolean;
+}
 
 
 const UserProfileSchema = Yup.object().shape({
@@ -30,36 +35,40 @@ const UserProfileSchema = Yup.object().shape({
 
 
 
-function UserProfileForm() {
-    const {loadActiveUser} = useContext(ActiveUserContext);
+const UserProfileForm = ({activeUser, isDisabled} : UserProfileProps) => {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null );
 
-    /*
+
     useEffect(() => {
         return (() => {
-            UserInfoService.getUserProfile(loadActiveUser)
-                .then((userProfile : UserProfile) => {
-                    console.log(userProfile);
-                    setUserProfile(userProfile);
-                })
+            if (activeUser) {
+                UserProfileService.getUserProfile(activeUser)
+                    .then((userProfile: UserProfile) => {
+                        console.log(userProfile);
+                        setUserProfile(userProfile);
+                    })
+            } else {
+                isDisabled = true;
+            }
         })
-    }, [loadActiveUser]);
+    }, [activeUser]);
 
 
     const submitHandler = (values: UserProfile) => {
         if(values.username !== undefined) {
-            UserInfoService.updateUserProfile(values)
+            UserProfileService.updateUserProfile(values)
                 .then(() => {
 
                 })
         } else {
-            UserInfoService.createUserProfile(values)
+            UserProfileService.addUserProfile(values)
                 .then(() => {
 
                 })
         }
-    }
-     */
+    };
+
+
 
 
     const formik = useFormik({
@@ -79,7 +88,7 @@ function UserProfileForm() {
 
     return (
         <div>
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit} >
                 <Box sx={{ paddingTop: '15px' }}>
                     <TextField
                         id="profilePicture"
@@ -87,6 +96,7 @@ function UserProfileForm() {
                         variant="outlined"
                         value={formik.values.profilePicture}
                         onChange={formik.handleChange}
+                        disabled={isDisabled}
                     />
                     <TextField
                         id="username"
@@ -94,12 +104,14 @@ function UserProfileForm() {
                         variant="outlined"
                         value={formik.values.username}
                         onChange={formik.handleChange}
+                        disabled={isDisabled}
                     />
                     <TextField
                         id="address"
                         label="Address"
                         variant="outlined"
                         value={formik.values.address}
+                        disabled={isDisabled}
                     />
                     <TextField
                         id="birthdate"
@@ -107,6 +119,7 @@ function UserProfileForm() {
                         name="birthdate"
                         variant="outlined"
                         value={formik.values.birthdate}
+                        disabled={isDisabled}
                     />
                 </Box>
                     <div>
@@ -114,7 +127,7 @@ function UserProfileForm() {
                             sx={{ marginTop: '15px', marginRight: '10px' }}
                             variant="outlined"
                             type="submit"
-                            disabled={!(formik.isValid)}
+                            disabled={!(formik.isValid) || isDisabled}
                         >
                             Save
                         </Button>

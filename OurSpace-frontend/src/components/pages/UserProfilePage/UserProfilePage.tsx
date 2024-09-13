@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import UserProfileForm from "../../molecules/UserProfileForm/UserProfileForm";
+import ActiveUserContext from "../../../Contexts/ActiveUserContext";
 
 function UserProfilePage() {
-
+    const {loadActiveUser} = useContext(ActiveUserContext);
     /*
     useEffect(() => {
         return (() => {
@@ -19,7 +20,7 @@ function UserProfilePage() {
 
     return (
         <div>
-            <UserProfileForm/>
+
 
         </div>
     );
