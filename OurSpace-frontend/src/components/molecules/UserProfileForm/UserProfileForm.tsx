@@ -1,16 +1,14 @@
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {UserProfile} from "../../../types/models/UserProfile.model";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {object} from "yup";
 import {Box} from "@mui/system";
 import {Button, TextField} from "@mui/material";
+import isImageURL from 'image-url-validator';
+import ActiveUserContext from "../../../Contexts/ActiveUserContext";
 
 
-interface UserProfileForm {
-    userProfile: UserProfile;
-    submitActionHandler: (values : UserProfile) => void
-}
 
 const UserProfileSchema = Yup.object().shape({
     userProfile: object({
@@ -23,11 +21,46 @@ const UserProfileSchema = Yup.object().shape({
 
                 return value ? today >= date : true;
             }),
-        profilePicture: Yup.string(),
+        profilePicture: Yup.string()
+            .test("Check if URL is an image", "Link is not an image.", value => {
+                return isImageURL(value as string);
+            }),
     })
-})
+});
 
-function UserProfileForm({userProfile, submitActionHandler}: UserProfileForm) {
+
+
+function UserProfileForm() {
+    const {loadActiveUser} = useContext(ActiveUserContext);
+    const [userProfile, setUserProfile] = useState<UserProfile | null>(null );
+
+    /*
+    useEffect(() => {
+        return (() => {
+            UserInfoService.getUserProfile(loadActiveUser)
+                .then((userProfile : UserProfile) => {
+                    console.log(userProfile);
+                    setUserProfile(userProfile);
+                })
+        })
+    }, [loadActiveUser]);
+
+
+    const submitHandler = (values: UserProfile) => {
+        if(values.username !== undefined) {
+            UserInfoService.updateUserProfile(values)
+                .then(() => {
+
+                })
+        } else {
+            UserInfoService.createUserProfile(values)
+                .then(() => {
+
+                })
+        }
+    }
+     */
+
 
     const formik = useFormik({
         initialValues : {
@@ -37,12 +70,12 @@ function UserProfileForm({userProfile, submitActionHandler}: UserProfileForm) {
             profilePicture: userProfile ? userProfile.profilePicture: '',
             user: userProfile ? userProfile.user : null,
         },
-        validationSchema: (UserProfileSchema),
-        onSubmit(values: UserProfile): void {
-            return submitActionHandler(values);
-        },
+        validationSchema: UserProfileSchema,
+        onSubmit : submitHandler,
         enableReinitialize: true,
     });
+
+
 
     return (
         <div>
@@ -53,12 +86,14 @@ function UserProfileForm({userProfile, submitActionHandler}: UserProfileForm) {
                         label="Profilpicture URL"
                         variant="outlined"
                         value={formik.values.profilePicture}
+                        onChange={formik.handleChange}
                     />
                     <TextField
                         id="username"
                         label="Username"
                         variant="outlined"
                         value={formik.values.username}
+                        onChange={formik.handleChange}
                     />
                     <TextField
                         id="address"

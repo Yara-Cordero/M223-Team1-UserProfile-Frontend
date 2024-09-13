@@ -6,5 +6,5 @@ export type UserProfile = {
     address ?: string;
     birthdate ?: Date | undefined;
     profilePicture ?: string;
-    user: User;
+    user: User | null | undefined;
 }
