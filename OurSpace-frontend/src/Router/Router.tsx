@@ -5,6 +5,7 @@ import HomePage from '../components/pages/HomePage';
 import UserTable from '../components/pages/UserPage/UserTable';
 import UserPage from '../components/pages/UserPage/UserPage';
 import authorities from '../config/Authorities';
+import UserProfilePage from "../components/pages/UserProfilePage/UserProfilePage";
 
 /**
  * Router component renders a route switch with all available pages
@@ -19,6 +20,8 @@ const Router = () => {
     <Routes>
       <Route path={'/'} element={<HomePage />} />
       <Route path={'/login'} element={<LoginPage />} />
+
+        <Route path={'/userprofile'} element={<PrivateRoute requiredAuths={[]} element={<UserProfilePage/>}/>} />
 
       <Route
         path={'/users'}
