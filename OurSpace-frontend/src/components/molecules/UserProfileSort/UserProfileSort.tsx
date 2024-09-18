@@ -6,7 +6,7 @@ function UserProfileSort() {
 
     const {setSort} = useContext(UserProfileOverviewContext);
 
-    const [selectedValue, setSelectedValue] = useState("creationdate_desc");
+    const [selectedValue, setSelectedValue] = useState("username_asc");
 
 
     useEffect(() => {
@@ -22,11 +22,14 @@ function UserProfileSort() {
             label="Sort"
             onChange={(value) => setSelectedValue(value.target.value)}
         >
-            <MenuItem value={"creationdate_desc"}>Cool</MenuItem>
-            <MenuItem value={"creationdate_asc"}>Twenty</MenuItem>
-            <MenuItem value={"other"}>Thirty</MenuItem>
+            <MenuItem value={"address_desc"}>Address A-Z</MenuItem>
+            <MenuItem value={"address_asc"}>Address Z-A</MenuItem>
+            <MenuItem value={"birthday_desc"}>Birthday Z-A</MenuItem>
+            <MenuItem value={"birthday_asc"}>Birthday A-Z</MenuItem>
+            <MenuItem value={"username_asc"}>Username A-Z</MenuItem>
+            <MenuItem value={"username_desc"}>Username Z-A</MenuItem>
         </Select>
-        )
+    )
 }
 
 export default UserProfileSort;

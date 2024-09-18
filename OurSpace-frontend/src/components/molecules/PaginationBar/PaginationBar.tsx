@@ -1,6 +1,6 @@
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {UserProfileOverviewContext} from "../../../Contexts/UserProfileOverviewContext";
-import {Pagination} from "@mui/material";
+import {Button, Pagination} from "@mui/material";
 
 function PaginationBar() {
 
@@ -11,12 +11,12 @@ function PaginationBar() {
     } = useContext(UserProfileOverviewContext);
 
     return (
-        <Pagination
-            count={pageInfo.totalPages}
-            color="primary"
-            page={currentPage}
-            onChange={(event, page) => setCurrentPage(page - 1)}
-        />
+            <Pagination
+                count={pageInfo.totalPages}
+                color="primary"
+                page={currentPage}
+                onChange={(event, page) => setCurrentPage(page)}
+            />
     )
 }
 

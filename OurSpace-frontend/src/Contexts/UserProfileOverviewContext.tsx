@@ -1,4 +1,4 @@
-import {createContext, useState} from "react";
+import React, {createContext, useState} from "react";
 import {Page} from "../types/models/Page.model";
 import {UserProfile} from "../types/models/UserProfile.model";
 
@@ -55,8 +55,7 @@ const contextDefaultValues: UserProfileOverviewContextState = {
 export const UserProfileOverviewContext =
     createContext<UserProfileOverviewContextState>(contextDefaultValues);
 
-// TODO remove any
-const UserProfileOverviewContextProvider = ({children}: any) => {
+const UserProfileOverviewContextProvider = ({children}:{children:React.ReactNode}) => {
 
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [sort, setSort] = useState<string>("");
