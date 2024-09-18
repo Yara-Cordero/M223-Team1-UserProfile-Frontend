@@ -18,6 +18,7 @@ const UserForm = ({ user, submitActionHandler }: UserProps) => {
       lastName: user ? user.lastName : '',
       firstName: user ? user.firstName : '',
       email: user ? user.email : '',
+      userProfile: user ? user.userProfile: { id : ''},
       roles: user ? user.roles : [],
     },
     validationSchema: object({

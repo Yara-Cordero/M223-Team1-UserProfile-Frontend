@@ -6,11 +6,10 @@ import {object} from "yup";
 import {Box} from "@mui/system";
 import {Button, TextField} from "@mui/material";
 import isImageURL from 'image-url-validator';
-import {User} from "../../../types/models/User.model";
 import UserProfileService from "../../../Services/UserProfileService";
 
 interface UserProfileProps {
-    activeUser: User | undefined | null;
+    activeUser: UserProfile | undefined | null;
     isDisabled: boolean;
 }
 
@@ -38,7 +37,7 @@ const UserProfileSchema = Yup.object().shape({
 const UserProfileForm = ({activeUser, isDisabled} : UserProfileProps) => {
     const [userProfile, setUserProfile] = useState<UserProfile | null>(null );
 
-
+/*
     useEffect(() => {
         return (() => {
             if (activeUser) {
@@ -52,6 +51,8 @@ const UserProfileForm = ({activeUser, isDisabled} : UserProfileProps) => {
             }
         })
     }, [activeUser]);
+
+ */
 
 
     const submitHandler = (values: UserProfile) => {

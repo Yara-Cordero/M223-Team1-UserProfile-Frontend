@@ -8,11 +8,12 @@ const UserPage = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
   const [user, setUser] = useState<User>({
+    userProfile: {id: ""},
     id: '',
     firstName: '',
     lastName: '',
     email: '',
-    roles: [],
+    roles: []
   });
 
   useEffect(() => {

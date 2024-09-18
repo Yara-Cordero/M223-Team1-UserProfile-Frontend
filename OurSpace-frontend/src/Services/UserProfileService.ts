@@ -4,7 +4,7 @@ import {UserProfile} from "../types/models/UserProfile.model";
 import {User} from "../types/models/User.model";
 
 const UserProfileService = {
-    getUserProfile: async (user: User): Promise<UserProfile> => {
+    getUserProfile: async (userProfile_id : string): Promise<UserProfile> => {
         const response = await api.get<UserProfile>(`/userprofile/$[{user.id}`);
         return response.data;
     },
