@@ -6,6 +6,7 @@ import UserTable from '../components/pages/UserPage/UserTable';
 import UserPage from '../components/pages/UserPage/UserPage';
 import authorities from '../config/Authorities';
 import UserProfilePage from "../components/pages/UserProfilePage/UserProfilePage";
+import UserProfileOverviewPage from "../components/pages/UserProfilePage/UserProfileOverviewPage";
 
 /**
  * Router component renders a route switch with all available pages
@@ -22,6 +23,7 @@ const Router = () => {
       <Route path={'/login'} element={<LoginPage />} />
 
         <Route path={'/userprofile'} element={<PrivateRoute requiredAuths={[]} element={<UserProfilePage/>}/>} />
+        <Route path={'/userprofile/all'} element={<PrivateRoute requiredAuths={[]} element={<UserProfileOverviewPage/>}/>} />
 
       <Route
         path={'/users'}

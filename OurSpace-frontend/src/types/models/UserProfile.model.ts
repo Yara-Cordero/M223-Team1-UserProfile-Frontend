@@ -3,8 +3,8 @@ import {User} from "./User.model";
 
 export type UserProfile = {
     username: string;
-    address ?: string;
+    address ?: string | undefined;
     birthdate ?: Date | undefined;
-    profilePicture ?: string;
+    profilePicture ?: string | undefined;
     user: User | null | undefined;
 }
