@@ -12,11 +12,12 @@ function UserProfilePage() {
         return (() => {
                 if (user !== undefined && user !== null && typeof user.userProfile.id === "string") {
                     UserProfileService.getUserProfile(user.userProfile.id)
-                        .then((userProfile) => {
+                        .then((userProfile : UserProfile) => {
                             setCurrentUserProfile(userProfile)
                             console.log(userProfile);
                         })
                 }
+                console.log("Get User with Context" ,user)
         })
     }, []);
 

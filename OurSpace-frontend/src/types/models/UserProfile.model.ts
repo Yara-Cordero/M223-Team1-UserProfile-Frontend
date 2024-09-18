@@ -2,9 +2,10 @@ import {User} from "./User.model";
 
 
 export type UserProfile = {
+    id: string
     username: string;
     address ?: string;
-    birthdate ?: Date | undefined;
+    birthday ?: Date | undefined;
     profilePicture ?: string;
-    user: User | null | undefined;
+
 }

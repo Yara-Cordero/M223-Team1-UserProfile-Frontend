@@ -8,10 +8,9 @@ const UserProfileService = {
         const response = await api.get<UserProfile>(`/userprofile/${id}`);
         return response.data;
     },
-    addUserProfile: (userProfile: UserProfile) => {
-        return api.post('/userprofile', userProfile).then((response) => {
-            return response.data;
-        });
+    addUserProfile: async (userProfile: UserProfile) => {
+       const response = await api.post(`/userprofile`, userProfile);
+       return response.data;
     },
 
     deleteUser: (id: string) => {
@@ -23,7 +22,8 @@ const UserProfileService = {
     },
 
     updateUserProfile: (userProfile: UserProfile) => {
-        return api.put(`/userprofile/${userProfile.user?.id}`, userProfile);
+        return api.put(`/userprofile/${userProfile.id}`, userProfile);
+        console.log("updated userProfile");
     },
 };
 
