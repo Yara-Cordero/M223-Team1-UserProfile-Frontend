@@ -21,7 +21,7 @@ const Router = () => {
       <Route path={'/'} element={<HomePage />} />
       <Route path={'/login'} element={<LoginPage />} />
 
-        <Route path={'/userprofile'} element={<PrivateRoute requiredAuths={[]} element={<UserProfilePage/>}/>} />
+        <Route path={'/me'} element={<PrivateRoute requiredAuths={[]} element={<UserProfilePage/>}/>} />
 
       <Route
         path={'/users'}
