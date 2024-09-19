@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {UserProfile} from "../../../types/models/UserProfile.model";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {Box} from "@mui/system";
 import {Button, TextField} from "@mui/material";
 import UserProfileService from "../../../Services/UserProfileService";
+import ActiveUserContext from "../../../Contexts/ActiveUserContext";
 
 interface UserProfileProps {
     userProfile: UserProfile | undefined | null;
@@ -32,6 +33,8 @@ const UserProfileSchema = Yup.object().shape({
 
 const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
 
+    const {user} = useContext(ActiveUserContext)
+
     const formatDate = ((date : Date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -53,8 +56,8 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
                     .then(() => {
                         console.log("UserProfile Updated");
                     })
-            } else {
-                UserProfileService.addUserProfile(payload)
+            } else if (user) {
+                UserProfileService.addUserProfile(payload, user?.id)
                     .then(() => {
                         console.log("UserProfile Created")
                     })
@@ -63,6 +66,19 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
             console.log(error);
         }
     };
+
+    const deleteHandler = (id : string | undefined) => {
+        try {
+            if (id !== undefined) {
+                UserProfileService.deleteUser(id)
+                    .then(() => {
+                        console.log("UserProfile Deleted");
+                    })
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
 
 
     const formik = useFormik({
@@ -136,14 +152,24 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
                 </Box>
                     <div>
                         {!isDisabled && (
-                            <Button
-                                sx={{ marginTop: '15px', marginRight: '10px' }}
+                            <>
+                                <Button
+                                sx={{marginTop: '15px', marginRight: '10px'}}
                                 variant="outlined"
                                 type="submit"
                                 disabled={!formik.isValid}
                             >
                                 Save
                             </Button>
+                            <Button
+                                sx={{marginTop: '15px', marginRight: '10px'}}
+                                variant="contained"
+                                color="error"
+                                onClick={() => deleteHandler(userProfile?.id)}
+                                disabled={!formik.values}
+                            >
+                                Delete
+                            </Button></>
                         )}
                     </div>
             </form>

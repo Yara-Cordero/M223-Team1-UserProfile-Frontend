@@ -1,8 +1,11 @@
 describe('Cypress - Test Admin Overview', () => {
 
+
+
+    // IF the test doesn't work, go to the login function, delete one of the clicks and run the test again, add de the click back and then the tests should work again
     it('Admin should get the Userprofile and  use pagination and sorting', () => {
         cy.login("admin@example.com", "1234")
-        cy.visit("http://localhost:3000/userprofile/all")
+        cy.visit("http://localhost:3000/userprofile/all").wait(500)
         // call custom function that checks if it gets the correct amount of UserProfiles
         cy.checkListCount(10)
         // change the sorting type (in the dropdown), wait is necessary because the page needs some time to load
