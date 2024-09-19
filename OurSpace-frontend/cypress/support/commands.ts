@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+///<reference path="../../node_modules/cypress/types/cypress.d.ts"/>
 // ***********************************************
 // This example commands.ts shows you how to
 // create various custom commands and overwrite
@@ -35,3 +36,26 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.addAll({
+    login: (email, password) => {
+        cy.visit('http://localhost:3000/login');
+        cy.get('[data-cy="email"]').click().type(email);
+        cy.get('[data-cy="password"]').click().type(password);
+        cy.get('[data-cy="submit-login"]').click().click();
+    },
+    checkListCount: (expectedCount) => {
+        cy.get('[data-cy="people-list-item"]').children().should('have.length', expectedCount);
+    }
+    })
+
+declare global {
+    namespace Cypress {
+        interface Chainable {
+            login(username: string, password?: string): Chainable;
+            checkListCount(expectedCount: number): Chainable;
+        }
+    }
+}
+
+export {};

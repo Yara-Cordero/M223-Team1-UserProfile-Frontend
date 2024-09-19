@@ -18,6 +18,7 @@ const UserForm = ({ user, submitActionHandler }: UserProps) => {
       lastName: user ? user.lastName : '',
       firstName: user ? user.firstName : '',
       email: user ? user.email : '',
+      userProfile: user ? user.userProfile: { id : ''},
       roles: user ? user.roles : [],
     },
     validationSchema: object({
@@ -32,7 +33,7 @@ const UserForm = ({ user, submitActionHandler }: UserProps) => {
   });
 
   return (
-    <>
+
       <form onSubmit={formik.handleSubmit}>
         <Box sx={{ paddingTop: '15px' }}>
           <TextField
@@ -98,7 +99,6 @@ const UserForm = ({ user, submitActionHandler }: UserProps) => {
           </Button>
         </div>
       </form>
-    </>
   );
 };
 

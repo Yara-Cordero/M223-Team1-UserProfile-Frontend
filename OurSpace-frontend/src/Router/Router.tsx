@@ -5,13 +5,14 @@ import HomePage from '../components/pages/HomePage';
 import UserTable from '../components/pages/UserPage/UserTable';
 import UserPage from '../components/pages/UserPage/UserPage';
 import authorities from '../config/Authorities';
+import UserProfilePage from "../components/pages/UserProfilePage/UserProfilePage";
+import UserProfileOverviewPage from "../components/pages/UserProfilePage/UserProfileOverviewPage";
 
 /**
  * Router component renders a route switch with all available pages
  */
 
 const Router = () => {
-  //const { checkRole } = useContext(ActiveUserContext);
 
   /** navigate to different "home"-locations depending on Role the user have */
 
@@ -19,6 +20,9 @@ const Router = () => {
     <Routes>
       <Route path={'/'} element={<HomePage />} />
       <Route path={'/login'} element={<LoginPage />} />
+
+        <Route path={'/userprofile/me'} element={<PrivateRoute requiredAuths={[authorities.DEFAULT, authorities.USER_MODIFY]} element={<UserProfilePage/>}/>} />
+        <Route path={'/userprofile/all'} element={<PrivateRoute requiredAuths={[authorities.USER_MODIFY]} element={<UserProfileOverviewPage/>}/>} />
 
       <Route
         path={'/users'}
