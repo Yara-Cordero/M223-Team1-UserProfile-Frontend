@@ -2,10 +2,8 @@ import React from 'react';
 import {UserProfile} from "../../../types/models/UserProfile.model";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
-import {object} from "yup";
 import {Box} from "@mui/system";
 import {Button, TextField} from "@mui/material";
-import isImageURL from 'image-url-validator';
 import UserProfileService from "../../../Services/UserProfileService";
 
 interface UserProfileProps {
@@ -15,37 +13,51 @@ interface UserProfileProps {
 
 
 const UserProfileSchema = Yup.object().shape({
-    username: Yup.string().required("Required"),
-    address: Yup.string().min(3, "too short").max(50, "too long"),
-    birthday: Yup.date().nullable(),
-        /*
-        .test("Check Max Date", "", (value) => {
+    username: Yup.string().required("required").min(1, "min. 1 letter").max(50, "max. 50 letters"),
+    address: Yup.string().min(3, "min. 3 letters").max(50, "max. 50 letters"),
+    birthday: Yup.string().nullable()
+        .test("Check Max Date", "Date is invalid.", (value) => {
             const date = value ? new Date(value) : new Date();
+            date.setHours(0, 0, 0, 0);
             let today = new Date();
+            today.setHours(0, 0, 0, 0);
 
             return value ? today >= date : true;
         }),
-
-         */
     profilePicture: Yup.string()
-        /*.test("Check if URL is an image", "Link is not an image.", value => {
-            return isImageURL(value as string);
-        }),
-
-         */
+        .url("Invalid URL format.")
 });
 
 
 
 const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
 
+    const formatDate = ((date : Date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+    });
 
-    const submitHandler = async (values: UserProfile) => {
+
+
+
+    const submitHandler = (values: UserProfile) => {
         try {
+            const payload ={
+                ...values,
+                birthday : values.birthday ? new Date(values.birthday) : undefined,
+            }
             if(values.username) {
-                await UserProfileService.updateUserProfile(values)
+                UserProfileService.updateUserProfile(payload)
+                    .then(() => {
+                        console.log("UserProfile Updated");
+                    })
             } else {
-                await UserProfileService.addUserProfile(values)
+                UserProfileService.addUserProfile(payload)
+                    .then(() => {
+                        console.log("UserProfile Created")
+                    })
             }
         }catch (error) {
             console.log(error);
@@ -58,7 +70,7 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
             id : userProfile ? userProfile.id : '',
             username: userProfile ? userProfile.username : '',
             address: userProfile ? userProfile.address : '',
-            birthday: userProfile ? userProfile.birthday : undefined,
+            birthday: userProfile && userProfile.birthday ? formatDate(new Date(userProfile.birthday)) : '',
             profilePicture: userProfile ? userProfile.profilePicture: '',
         },
         validationSchema: UserProfileSchema,
@@ -67,6 +79,7 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
             submitHandler(values);
         },
         enableReinitialize: true,
+        validateOnChange: true
     });
 
 
@@ -83,9 +96,11 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
                         value={formik.values.profilePicture}
                         onChange={formik.handleChange}
                         error={formik.touched.profilePicture && Boolean(formik.errors.profilePicture)}
+                        helperText={formik.errors.profilePicture}
                         disabled={isDisabled}
                     />
                     <TextField
+                        required
                         id="username"
                         name="username"
                         label="Username"
@@ -93,11 +108,9 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
                         value={formik.values.username}
                         onChange={formik.handleChange}
                         error={formik.touched.username && Boolean(formik.errors.username)}
+                        helperText={formik.errors.username}
                         disabled={isDisabled}
                     />
-                    {formik.errors.username && formik.touched.username ? (
-                        <div>{formik.errors.username}</div>
-                    ) : null}
                     <TextField
                         id="address"
                         name="address"
@@ -106,6 +119,7 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
                         value={formik.values.address}
                         onChange={formik.handleChange}
                         error={formik.touched.address && Boolean(formik.errors.address)}
+                        helperText={formik.errors.address}
                         disabled={isDisabled}
                     />
                     <TextField
@@ -116,6 +130,7 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
                         value={formik.values.birthday}
                         onChange={formik.handleChange}
                         error={formik.touched.birthday && Boolean(formik.errors.birthday)}
+                        helperText={formik.errors.birthday}
                         disabled={isDisabled}
                     />
                 </Box>

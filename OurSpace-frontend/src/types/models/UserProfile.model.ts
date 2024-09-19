@@ -1,11 +1,9 @@
-import {User} from "./User.model";
 
 
 export type UserProfile = {
     id: string
     username: string;
     address ?: string;
-    birthday ?: Date;
+    birthday ?: Date | string;
     profilePicture ?: string;
-    user ?: User | null;
 }
