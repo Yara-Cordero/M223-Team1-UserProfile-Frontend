@@ -11,7 +11,7 @@ function UserProfileSort() {
 
     useEffect(() => {
         setSort(selectedValue);
-    }, [selectedValue]);
+    }, [setSort ,selectedValue]);
 
 
     return (

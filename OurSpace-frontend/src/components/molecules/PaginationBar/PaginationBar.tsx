@@ -1,6 +1,6 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext} from "react";
 import {UserProfileOverviewContext} from "../../../Contexts/UserProfileOverviewContext";
-import {Button, Pagination} from "@mui/material";
+import {Pagination} from "@mui/material";
 
 function PaginationBar() {
 

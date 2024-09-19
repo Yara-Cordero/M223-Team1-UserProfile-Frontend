@@ -12,7 +12,7 @@ function Overview() {
             setPageInfo({...value});
         console.log(value);
         })
-    }, [currentPage, sort]);
+    }, [setPageInfo, currentPage, sort, pageInfo.pageable.pageSize]);
 
 
     return (

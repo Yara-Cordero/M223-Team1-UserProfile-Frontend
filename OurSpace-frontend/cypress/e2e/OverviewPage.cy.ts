@@ -1,5 +1,3 @@
-import * as cypress from "cypress";
-
 describe('Cypress - Test Admin Overview', () => {
 
     it('Admin should get the Userprofile and  use pagination and sorting', () => {

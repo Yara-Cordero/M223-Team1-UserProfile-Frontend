@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import {Route, Routes} from 'react-router-dom';
 import LoginPage from '../components/pages/LoginPage/LoginPage';
 import PrivateRoute from './PrivateRoute';
 import HomePage from '../components/pages/HomePage';
@@ -13,7 +13,6 @@ import UserProfileOverviewPage from "../components/pages/UserProfilePage/UserPro
  */
 
 const Router = () => {
-  //const { checkRole } = useContext(ActiveUserContext);
 
   /** navigate to different "home"-locations depending on Role the user have */
 
@@ -22,8 +21,8 @@ const Router = () => {
       <Route path={'/'} element={<HomePage />} />
       <Route path={'/login'} element={<LoginPage />} />
 
-        <Route path={'/userprofile'} element={<PrivateRoute requiredAuths={[]} element={<UserProfilePage/>}/>} />
-        <Route path={'/userprofile/all'} element={<PrivateRoute requiredAuths={[]} element={<UserProfileOverviewPage/>}/>} />
+        <Route path={'/userprofile'} element={<PrivateRoute requiredAuths={[authorities.DEFAULT, authorities.USER_MODIFY]} element={<UserProfilePage/>}/>} />
+        <Route path={'/userprofile/all'} element={<PrivateRoute requiredAuths={[authorities.USER_MODIFY]} element={<UserProfileOverviewPage/>}/>} />
 
       <Route
         path={'/users'}
