@@ -9,7 +9,7 @@ import {
 import React, { useContext } from 'react';
 
 import { Form, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import * as Yup from 'yup';
 import ActiveUserContext from '../../../Contexts/ActiveUserContext';
 
@@ -34,7 +34,7 @@ const Login = () => {
       .then(() => {
         console.log(values);
 
-        navigate('/me');
+        navigate('/userprofile/me');
       })
       .catch((error) => {
         if (
