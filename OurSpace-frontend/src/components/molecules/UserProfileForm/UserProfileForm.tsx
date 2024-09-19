@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import {UserProfile} from "../../../types/models/UserProfile.model";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
@@ -9,7 +9,7 @@ import isImageURL from 'image-url-validator';
 import UserProfileService from "../../../Services/UserProfileService";
 
 interface UserProfileProps {
-    activeUser: UserProfile | undefined | null;
+    userProfile: UserProfile | undefined | null;
     isDisabled: boolean;
 }
 
@@ -34,25 +34,7 @@ const UserProfileSchema = Yup.object().shape({
 
 
 
-const UserProfileForm = ({activeUser, isDisabled} : UserProfileProps) => {
-    const [userProfile, setUserProfile] = useState<UserProfile | null>(null );
-
-/*
-    useEffect(() => {
-        return (() => {
-            if (activeUser) {
-                UserProfileService.getUserProfile(activeUser)
-                    .then((userProfile: UserProfile) => {
-                        console.log(userProfile);
-                        setUserProfile(userProfile);
-                    })
-            } else {
-                isDisabled = true;
-            }
-        })
-    }, [activeUser]);
-
- */
+const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
 
 
     const submitHandler = (values: UserProfile) => {

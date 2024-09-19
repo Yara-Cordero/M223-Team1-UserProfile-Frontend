@@ -1,6 +1,6 @@
-import {useContext, useEffect, useMemo, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {UserProfileOverviewContext} from "../../../Contexts/UserProfileOverviewContext";
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {MenuItem, Select} from "@mui/material";
 
 function UserProfileSort() {
 
@@ -17,6 +17,7 @@ function UserProfileSort() {
     return (
         <Select
             labelId="sort"
+            data-cy="sort-dropdown"
             id="sort"
             value={selectedValue}
             label="Sort"

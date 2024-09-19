@@ -1,10 +1,7 @@
-import React, {ChangeEvent, useContext, useEffect, useState} from 'react';
-import {UserProfile} from "../../../types/models/UserProfile.model";
-import {Page} from "../../../types/models/Page.model";
+import React, {useContext, useEffect} from 'react';
 import UserProfileService from "../../../Services/UserProfileService";
-import userProfileOverviewContext, {UserProfileOverviewContext} from "../../../Contexts/UserProfileOverviewContext";
+import {UserProfileOverviewContext} from "../../../Contexts/UserProfileOverviewContext";
 import UserProfileForm from "../../molecules/UserProfileForm/UserProfileForm";
-import ActiveUserContext from "../../../Contexts/ActiveUserContext";
 
 function Overview() {
 
@@ -19,7 +16,7 @@ function Overview() {
 
 
     return (
-        <div>
+        <div data-cy="people-list-item">
             {pageInfo.content.map((userProfile) => (<UserProfileForm key={userProfile.username} userProfile={userProfile} isDisabled={true} />))}
         </div>
 
