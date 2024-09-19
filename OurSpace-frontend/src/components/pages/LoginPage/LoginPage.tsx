@@ -32,7 +32,7 @@ const Login = () => {
   const handleSubmit = (values: { email: string; password: string }) => {
     login(values.email.toLowerCase(), values.password)
       .then(() => {
-        console.log(values);
+        console.log("navigate", values);
 
         navigate('/userprofile/me');
       })

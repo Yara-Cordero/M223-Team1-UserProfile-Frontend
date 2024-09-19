@@ -64,7 +64,6 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
     const deleteHandler = (id : string | undefined) => {
         try {
             if (id !== undefined) {
-                console.log(id);
                 UserProfileService.deleteUser(id)
                     .then(() => {
                         console.log("UserProfile Deleted");
@@ -86,7 +85,6 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
         },
         validationSchema: UserProfileSchema,
         onSubmit : (values: UserProfile) => {
-            console.log(values);
             submitHandler(values);
         },
         enableReinitialize: true,

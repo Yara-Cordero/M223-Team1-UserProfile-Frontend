@@ -10,7 +10,6 @@ function Overview() {
     useEffect(() => {
         UserProfileService.getAllUserProfiles(currentPage - 1, pageInfo.pageable.pageSize, sort).then((value) => {
             setPageInfo({...value});
-        console.log(value);
         })
     }, [setPageInfo, currentPage, sort, pageInfo.pageable.pageSize]);
 

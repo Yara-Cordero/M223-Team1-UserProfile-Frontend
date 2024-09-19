@@ -27,7 +27,7 @@ const UserProfileService = {
     },
 
     updateUserProfile: (userProfile: UserProfile) => {
-        return api.put(`/userprofile/${userProfile.user?.id}`, userProfile);
+        return api.put(`/userprofile/${userProfile.id}`, userProfile);
     },
 };
 
