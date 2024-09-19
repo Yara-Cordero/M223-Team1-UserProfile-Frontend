@@ -15,21 +15,24 @@ interface UserProfileProps {
 
 
 const UserProfileSchema = Yup.object().shape({
-    userProfile: object({
-        username: Yup.string().required("Required"),
-        address: Yup.string().min(3).max(50),
-        birthdate: Yup.date().nullable()
-            .test("Check Max Date", "", (value) => {
-                const date = value ? new Date(value) : new Date();
-                let today = new Date();
+    username: Yup.string().required("Required"),
+    address: Yup.string().min(3, "too short").max(50, "too long"),
+    birthday: Yup.date().nullable(),
+        /*
+        .test("Check Max Date", "", (value) => {
+            const date = value ? new Date(value) : new Date();
+            let today = new Date();
 
-                return value ? today >= date : true;
-            }),
-        profilePicture: Yup.string()
-            .test("Check if URL is an image", "Link is not an image.", value => {
-                return isImageURL(value as string);
-            }),
-    })
+            return value ? today >= date : true;
+        }),
+
+         */
+    profilePicture: Yup.string()
+        /*.test("Check if URL is an image", "Link is not an image.", value => {
+            return isImageURL(value as string);
+        }),
+
+         */
 });
 
 
@@ -37,33 +40,32 @@ const UserProfileSchema = Yup.object().shape({
 const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
 
 
-    const submitHandler = (values: UserProfile) => {
-        if(values.username !== undefined) {
-            UserProfileService.updateUserProfile(values)
-                .then(() => {
-
-                })
-        } else {
-            UserProfileService.addUserProfile(values)
-                .then(() => {
-
-                })
+    const submitHandler = async (values: UserProfile) => {
+        try {
+            if(values.username) {
+                await UserProfileService.updateUserProfile(values)
+            } else {
+                await UserProfileService.addUserProfile(values)
+            }
+        }catch (error) {
+            console.log(error);
         }
     };
 
 
-
-
     const formik = useFormik({
         initialValues : {
+            id : userProfile ? userProfile.id : '',
             username: userProfile ? userProfile.username : '',
             address: userProfile ? userProfile.address : '',
-            birthdate: userProfile ? userProfile.birthdate : new Date(0),
+            birthday: userProfile ? userProfile.birthday : undefined,
             profilePicture: userProfile ? userProfile.profilePicture: '',
-            user: userProfile ? userProfile.user : null,
         },
         validationSchema: UserProfileSchema,
-        onSubmit : submitHandler,
+        onSubmit : (values: UserProfile) => {
+            console.log(values);
+            submitHandler(values);
+        },
         enableReinitialize: true,
     });
 
@@ -72,48 +74,62 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
     return (
         <div>
             <form onSubmit={formik.handleSubmit} >
-                <Box sx={{ paddingTop: '15px' }}>
+                <Box sx={{ paddingTop: '30px' }}>
                     <TextField
                         id="profilePicture"
+                        name="profilePicture"
                         label="Profilpicture URL"
                         variant="outlined"
                         value={formik.values.profilePicture}
                         onChange={formik.handleChange}
+                        error={formik.touched.profilePicture && Boolean(formik.errors.profilePicture)}
                         disabled={isDisabled}
                     />
                     <TextField
                         id="username"
+                        name="username"
                         label="Username"
                         variant="outlined"
                         value={formik.values.username}
                         onChange={formik.handleChange}
+                        error={formik.touched.username && Boolean(formik.errors.username)}
                         disabled={isDisabled}
                     />
+                    {formik.errors.username && formik.touched.username ? (
+                        <div>{formik.errors.username}</div>
+                    ) : null}
                     <TextField
                         id="address"
+                        name="address"
                         label="Address"
                         variant="outlined"
                         value={formik.values.address}
+                        onChange={formik.handleChange}
+                        error={formik.touched.address && Boolean(formik.errors.address)}
                         disabled={isDisabled}
                     />
                     <TextField
-                        id="birthdate"
-                        label="Birthdate"
-                        name="birthdate"
+                        id="birthday"
+                        name="birthday"
+                        label="Birthday"
                         variant="outlined"
-                        value={formik.values.birthdate}
+                        value={formik.values.birthday}
+                        onChange={formik.handleChange}
+                        error={formik.touched.birthday && Boolean(formik.errors.birthday)}
                         disabled={isDisabled}
                     />
                 </Box>
                     <div>
-                        <Button
-                            sx={{ marginTop: '15px', marginRight: '10px' }}
-                            variant="outlined"
-                            type="submit"
-                            disabled={!(formik.isValid) || isDisabled}
-                        >
-                            Save
-                        </Button>
+                        {!isDisabled && (
+                            <Button
+                                sx={{ marginTop: '15px', marginRight: '10px' }}
+                                variant="outlined"
+                                type="submit"
+                                disabled={!formik.isValid}
+                            >
+                                Save
+                            </Button>
+                        )}
                     </div>
             </form>
         </div>
