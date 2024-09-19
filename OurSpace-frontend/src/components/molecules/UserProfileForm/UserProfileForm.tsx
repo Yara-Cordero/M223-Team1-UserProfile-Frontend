@@ -39,9 +39,6 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
         return `${year}-${month}-${day}`;
     });
 
-
-
-
     const submitHandler = (values: UserProfile) => {
         try {
             const payload ={
@@ -63,6 +60,20 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
             console.log(error);
         }
     };
+
+    const deleteHandler = (id : string | undefined) => {
+        try {
+            if (id !== undefined) {
+                console.log(id);
+                UserProfileService.deleteUser(id)
+                    .then(() => {
+                        console.log("UserProfile Deleted");
+                    })
+            }
+        }catch(error){
+            console.log(error);
+        }
+    }
 
 
     const formik = useFormik({
@@ -136,14 +147,24 @@ const UserProfileForm = ({userProfile, isDisabled} : UserProfileProps) => {
                 </Box>
                     <div>
                         {!isDisabled && (
-                            <Button
-                                sx={{ marginTop: '15px', marginRight: '10px' }}
+                            <>
+                                <Button
+                                sx={{marginTop: '15px', marginRight: '10px'}}
                                 variant="outlined"
                                 type="submit"
                                 disabled={!formik.isValid}
                             >
                                 Save
                             </Button>
+                            <Button
+                                sx={{marginTop: '15px', marginRight: '10px'}}
+                                variant="contained"
+                                color="error"
+                                onClick={() => deleteHandler(userProfile?.id)}
+                                disabled={!formik.values}
+                            >
+                                Delete
+                            </Button></>
                         )}
                     </div>
             </form>
