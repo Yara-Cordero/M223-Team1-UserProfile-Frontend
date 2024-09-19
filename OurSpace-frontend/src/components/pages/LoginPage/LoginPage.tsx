@@ -74,6 +74,7 @@ const Login = () => {
               <TextField
                 label='email'
                 id='email'
+                data-cy="email"
                 placeholder='Enter username'
                 fullWidth
                 required
@@ -89,6 +90,7 @@ const Login = () => {
               <TextField
                 id='password'
                 label='password'
+                data-cy="password"
                 placeholder='Enter password'
                 type='password'
                 fullWidth
@@ -103,6 +105,7 @@ const Login = () => {
 
               <Button
                 type='submit'
+                data-cy="submit-login"
                 color='primary'
                 variant='contained'
                 style={btnstyle}

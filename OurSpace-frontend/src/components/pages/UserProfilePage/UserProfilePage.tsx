@@ -10,7 +10,7 @@ function UserProfilePage() {
 
     useEffect(() => {
         return (() => {
-                if (user !== undefined && user !== null && typeof user.userProfile.id === "string") {
+                if (user !== undefined && user !== null && user.userProfile !== null && typeof user.userProfile.id === "string") {
                     UserProfileService.getUserProfile(user.userProfile.id)
                         .then((userProfile : UserProfile) => {
                             setCurrentUserProfile(userProfile)

@@ -37,6 +37,7 @@
 //   }
 // }
 
+
 Cypress.Commands.addAll({
     login: (email, password) => {
         cy.visit('http://localhost:3000/login');

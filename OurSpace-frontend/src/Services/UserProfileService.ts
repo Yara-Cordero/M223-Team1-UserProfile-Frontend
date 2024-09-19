@@ -13,8 +13,8 @@ const UserProfileService = {
         const response = await api.get<Page<UserProfile>>(`/userprofile?limit=${limit}&offset=${offset}${sort}`);
         return response.data;
     },
-    addUserProfile: async (userProfile: UserProfile) => {
-       const response = await api.post(`/userprofile`, userProfile);
+    addUserProfile: async (userProfile: UserProfile, id: string) => {
+       const response = await api.post(`/userprofile/${id}`, userProfile);
        return response.data;
     },
 
