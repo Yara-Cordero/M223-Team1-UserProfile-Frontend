@@ -23,6 +23,6 @@ jobs:
       with:
         context: ./OurSpace-frontend
         push: true
-        tags: yaracordero/app:latest
+        tags: yaracordero/uek-frontend:workflow
 
       
